@@ -121,3 +121,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .glow-blue {
+    box-shadow: 0 0 8px #3b82f6, 0 0 2px #3b82f6;
+  }
+  .glow-red {
+    box-shadow: 0 0 10px #ef4444, 0 0 4px #ef4444;
+  }
+}

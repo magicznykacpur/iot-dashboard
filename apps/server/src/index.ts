@@ -8,9 +8,11 @@ console.log("WebSocket server is running on port 8080");
 
 setInterval(async () => {
   const load = await systeminformation.currentLoad();
+  const cpu = await systeminformation.cpu();
   const mem = await systeminformation.mem();  
-
+  
   const stats: SystemState = {
+    processorName: cpu.manufacturer + " " + cpu.brand,
     cores: load.cpus.map((cpu, index) => ({
       id: index,
       usage: cpu.load,

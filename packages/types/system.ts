@@ -4,6 +4,7 @@ export type CoreData = {
 }
 
 export type SystemState = {
+  processorName: string;
   cores: CoreData[];
   memory: {
     total: number;
