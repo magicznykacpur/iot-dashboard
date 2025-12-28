@@ -18,9 +18,9 @@ setInterval(async () => {
       usage: cpu.load,
     })),
     memory: {
-      total: mem.total,
-      used: mem.used,
-      free: mem.free,
+      total: Math.round(mem.total / 1024 / 1024 / 1024),
+      used: Math.round(mem.used / 1024 / 1024 / 1024),
+      free: Math.round(mem.free / 1024 / 1024 / 1024),
     },
     timestamp: Date.now(),
   };

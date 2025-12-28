@@ -1,7 +1,9 @@
 "use client";
 
-import CoreCard from "@/components/core/core-card";
-import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
+import CoreTab from "@/components/core/core-tab";
+import MemoryTab from "@/components/memory/memory-tab";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatTimeStampShort } from "@/lib/time-utils";
 import { SystemState } from "@repo/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -30,7 +32,7 @@ const Dashboard = () => {
     <Tabs
       onValueChange={(value) => setActiveTab(value)}
       value={activeTab}
-      className="flex flex-col gap-4 bg-black min-h-screen px-4 py-8"
+      className="relative flex flex-col gap-4 bg-black min-h-screen px-4 py-8"
     >
       <TabsList className="gap-x-4 py-6">
         <TabsTrigger value="cores" className="p-4 bg-gray-200 rounded-lg">
@@ -46,20 +48,13 @@ const Dashboard = () => {
           Storage
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="cores" className="flex flex-col gap-4 mt-4">
-        <div className="flex flex-col">
-          <span className="text-white font-semibold text-xl">
-            {systemState.processorName}
-          </span>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-2">
-          {systemState &&
-            systemState.cores.length > 0 &&
-            systemState.cores.map((core) => (
-              <CoreCard key={core.id} core={core} />
-            ))}
-        </div>
-      </TabsContent>
+      
+      <CoreTab systemState={systemState} />
+      <MemoryTab systemState={systemState} />
+
+      <span className="absolute top-12 right-4 text-white">
+        {formatTimeStampShort(systemState.timestamp)}
+      </span>
     </Tabs>
   );
 };
