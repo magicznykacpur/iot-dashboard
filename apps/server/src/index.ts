@@ -1,0 +1,31 @@
+import { SystemState } from "@repo/types";
+import systeminformation from "systeminformation";
+import { WebSocketServer } from "ws";
+
+const wss = new WebSocketServer({ port: 8080 });
+
+console.log("WebSocket server is running on port 8080");
+
+setInterval(async () => {
+  const load = await systeminformation.currentLoad();
+  const mem = await systeminformation.mem();  
+
+  const stats: SystemState = {
+    cores: load.cpus.map((cpu, index) => ({
+      id: index,
+      usage: cpu.load,
+    })),
+    memory: {
+      total: mem.total,
+      used: mem.used,
+      free: mem.free,
+    },
+    timestamp: Date.now(),
+  };
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(stats));
+    }
+  });
+}, 1000);
